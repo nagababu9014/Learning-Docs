@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI PDF Summarizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen p-6">
+  <div class="max-w-4xl mx-auto bg-white rounded-xl shadow p-6">
+    <h2 class="text-2xl font-bold">AI PDF Summarizer</h2>
+    <p class="text-gray-500 mt-2">Upload a PDF and choose the summary style.</p>
+
+    <form action="{{ url_for('ai_summarize') }}" method="post" enctype="multipart/form-data" class="mt-6 space-y-4">
+      <label class="block text-sm text-gray-700">Select PDF</label>
+      <input name="pdf" type="file" accept="application/pdf" required class="block w-full" />
+
+      <label class="block text-sm text-gray-700">Choose summary style</label>
+      <select name="style" class="block w-full border rounded p-2">
+        <option value="simple" {% if style == 'simple' %}selected{% endif %}>Simple (paragraph)</option>
+        <option value="bullets" {% if style == 'bullets' %}selected{% endif %}>Bullet points</option>
+        <option value="abstract" {% if style == 'abstract' %}selected{% endif %}>Research Abstract</option>
+        <option value="legal" {% if style == 'legal' %}selected{% endif %}>Legal Brief</option>
+        <option value="teaching" {% if style == 'teaching' %}selected{% endif %}>Teaching Explanation</option>
+        <option value="short" {% if style == 'short' %}selected{% endif %}>Ultra-short (one line)</option>
+        <option value="long" {% if style == 'long' %}selected{% endif %}>Detailed long summary</option>
+      </select>
+
+      <div class="flex gap-3">
+        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg">Summarize</button>
+        <a href="{{ url_for('ai_summarize') }}" class="px-4 py-2 bg-gray-200 rounded-lg">Reset</a>
+      </div>
+    </form>
+
+    {% if summary %}
+    <div class="mt-6 p-4 bg-gray-100 rounded-lg">
+      <h3 class="text-lg font-semibold">Final Summary ({{ style }})</h3>
+      <div class="mt-2 whitespace-pre-line text-gray-800">{{ summary }}</div>
+    </div>
+
+    <details class="mt-4 p-4 bg-white border rounded">
+      <summary class="cursor-pointer font-medium">Show per-chunk summaries (debug / transparency)</summary>
+      <div class="mt-2 space-y-3">
+        {% for cs in chunk_summaries %}
+          <div class="p-3 bg-gray-50 rounded border">
+            <div class="whitespace-pre-line text-sm text-gray-800">{{ cs }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </details>
+    {% endif %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+Flask
+python-dotenv
+Werkzeug
+groq
+sentence-transformers
+numpy
+PyPDF2
+pymupdf
+reportlab
+python-docx
+Pillow
+gTTS
+requests

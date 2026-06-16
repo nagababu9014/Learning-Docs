@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat With PDF / YouTube</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Inter, sans-serif;
+            background: #f1f5f9;
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        #chatbox {
+            height: 450px;
+            overflow-y: auto;
+            padding: 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .bubble {
+            max-width: 85%;
+            padding: 10px 14px;
+            margin: 10px 0;
+            border-radius: 12px;
+            line-height: 1.5;
+        }
+        .user-msg { background: #2563eb; color: white; margin-left: auto; }
+        .ai-msg { background: #e2e8f0; color: #1e293b; }
+        #message {
+            width: 80%;
+            height: 42px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+        }
+        #sendBtn {
+            height: 42px;
+            padding: 0 18px;
+            border: none;
+            background: #2563eb;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>📄 Chat With PDF / YouTube Video</h2>
+
+    <!-- UPLOAD SECTION -->
+    <div id="upload-section">
+        <input type="file" id="pdfInput" accept="application/pdf">
+    </div>
+
+    <!-- CHAT SECTION -->
+    <div id="chat-section" style="display:none;">
+        <div id="chatbox"></div>
+        <input id="message" placeholder="Ask something…" />
+        <button id="sendBtn">Send</button>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script>
+/*******************************
+  READ SESSION FROM URL
+*******************************/
+const params = new URLSearchParams(window.location.search);
+let session_id = params.get("session_id");
+
+/*******************************
+  IF session_id EXISTS → YOUTUBE MODE
+*******************************/
+if (session_id) {
+    console.log("YOUTUBE SESSION:", session_id);
+    document.getElementById("upload-section").style.display = "none";
+    document.getElementById("chat-section").style.display = "block";
+} else {
+    console.log("NO session — waiting for PDF upload");
+}
+
+/*******************************
+  PDF UPLOAD MODE
+*******************************/
+document.getElementById("pdfInput").addEventListener("change", async (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+
+    const fd = new FormData();
+    fd.append("pdf", f);
+
+    const res = await fetch("/chat-pdf-upload", { method: "POST", body: fd });
+    const data = await res.json();
+
+    if (data.error) return alert(data.error);
+
+    session_id = data.session_id;
+    localStorage.setItem("pdf_session", session_id);
+
+    document.getElementById("upload-section").style.display = "none";
+    document.getElementById("chat-section").style.display = "block";
+
+    addAI("📄 PDF uploaded! You can now ask questions.");
+});
+
+/*******************************
+  CHAT FUNCTIONS
+*******************************/
+const chatbox = document.getElementById("chatbox");
+document.getElementById("sendBtn").onclick = sendMessage;
+document.getElementById("message").onkeydown = (e) => { if (e.key === "Enter") sendMessage(); };
+
+function addUser(text) {
+    const d = document.createElement("div");
+    d.className = "bubble user-msg";
+    d.textContent = text;
+    chatbox.appendChild(d);
+    chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+function addAI(html) {
+    const d = document.createElement("div");
+    d.className = "bubble ai-msg";
+    d.innerHTML = html;
+    chatbox.appendChild(d);
+    chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+/*******************************
+  SEND MESSAGE (STREAMING)
+*******************************/
+
+/*******************************
+  SEND MESSAGE (NON-STREAMING)
+*******************************/
+async function sendMessage() {
+    const msg = document.getElementById("message").value.trim();
+    if (!msg) return;
+
+    addUser(msg);
+    document.getElementById("message").value = "";
+
+    // Restore session if refreshed
+    if (!session_id) {
+        session_id = params.get("session_id") || localStorage.getItem("pdf_session");
+    }
+
+    if (!session_id) {
+        alert("No session found. Upload a PDF first.");
+        return;
+    }
+
+    // Create AI bubble
+    let aiBubble = document.createElement("div");
+    aiBubble.className = "bubble ai-msg";
+    aiBubble.innerHTML = "Thinking...";
+    chatbox.appendChild(aiBubble);
+    chatbox.scrollTop = chatbox.scrollHeight;
+
+    try {
+        const res = await fetch("/chat-pdf-ask", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                session_id: session_id,
+                message: msg
+            })
+        });
+
+        const data = await res.json();
+
+        if (data.answer) {
+            aiBubble.innerHTML = marked.parse(data.answer);
+        } else {
+            aiBubble.innerHTML = "No response from AI.";
+        }
+    } catch (err) {
+        aiBubble.innerHTML = "Error getting response.";
+    }
+
+    chatbox.scrollTop = chatbox.scrollHeight;
+}
+</script>
+
+
+</body>
+</html>
