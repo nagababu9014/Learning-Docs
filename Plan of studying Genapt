@@ -1,0 +1,181 @@
+Yes, but don't try to learn everything overnight. Your goal is to have a good conversation with the manager tomorrow, not to become a GenAI expert in one night.
+
+Priority 1: Revise Python (1.5 hours)
+
+Make sure you can confidently explain:
+
+# List
+nums = [1, 2, 3]
+
+# Dictionary
+user = {"name": "Naga", "role": "Engineer"}
+
+# Function
+def add(a, b):
+    return a + b
+
+# Class
+class Employee:
+    def __init__(self, name):
+        self.name = name
+
+Know:
+
+Lists
+Dictionaries
+Functions
+Classes & OOP
+Exception handling
+File handling
+APIs (requests)
+JSON
+
+If they ask:
+
+"Are you comfortable with Python?"
+
+You should confidently say:
+
+"Yes, I know Python fundamentals, OOP, APIs, JSON handling, and I've used Python in Django projects."
+
+Priority 2: Learn GenAI Basics (1 hour)
+
+Understand these terms:
+
+What is Generative AI?
+
+AI that generates content like:
+
+Text
+Code
+Images
+Reports
+
+Examples:
+
+OpenAI ChatGPT
+Google Gemini
+What is an LLM?
+
+Large Language Model.
+
+Examples:
+
+GPT
+Gemini
+Claude
+
+LLMs understand and generate human language.
+
+What is Prompt Engineering?
+
+Giving clear instructions to an LLM.
+
+Example:
+
+Bad prompt:
+
+Analyze this report.
+
+Good prompt:
+
+Analyze this performance report and identify top 5 bottlenecks.
+
+Priority 3: Understand RAG (1 hour)
+
+This is the most important GenAI concept.
+
+What is RAG?
+
+Retrieval-Augmented Generation.
+
+Without RAG:
+
+AI answers from training data.
+
+With RAG:
+
+AI first searches company documents.
+Then generates an answer.
+
+Example for GenApt:
+
+User asks:
+
+Why did response time increase?
+
+System:
+
+Reads JMeter results.
+Reads monitoring reports.
+Sends data to LLM.
+Generates analysis.
+
+That's basically a RAG-style workflow.
+
+Priority 4: Revise Performance Engineering (1 hour)
+
+Know:
+
+Difference between Performance Testing and Performance Engineering
+
+Performance Testing:
+
+Run tests
+Measure response times
+
+Performance Engineering:
+
+Prevent performance issues
+Design scalable systems
+
+Know these terms:
+
+Throughput
+Response Time
+Concurrent Users
+Load Test
+Stress Test
+Spike Test
+Endurance Test
+Bottleneck
+SLA
+Questions you may get tomorrow
+Tell me about yourself
+
+Prepare a 1-minute answer:
+
+"I completed MCA in 2025 and recently joined LTIMindtree. I completed Performance Engineering training and was among the top performers in the batch. I also have hands-on experience with Python, Django, REST APIs, PostgreSQL, AWS deployment, and full-stack web development. I'm interested in learning how GenAI can be applied to Performance Engineering and would like to contribute to GenApt."
+
+Why are you interested in GenApt?
+
+"It combines Performance Engineering knowledge with automation and AI. I believe this is an exciting area and I'd like to contribute while expanding my technical skills."
+
+4-Hour Night Plan
+
+10:00 PM – 11:30 PM
+
+Python revision
+OOP
+Dictionaries
+APIs
+JSON
+
+11:30 PM – 12:30 AM
+
+GenAI basics
+LLMs
+Prompt Engineering
+
+12:30 AM – 1:30 AM
+
+RAG concepts
+Watch 2–3 beginner videos
+
+1:30 AM – 2:30 AM
+
+Performance Engineering concepts
+Load testing terminology
+Revise training notes
+
+After that, sleep. Being fresh and confident in the discussion will help more than trying to learn advanced AI frameworks overnight. The fact that they specifically want developers with Performance Engineering knowledge suggests they're likely looking for people who understand the domain and can grow into the product, not experts who already know everything.
