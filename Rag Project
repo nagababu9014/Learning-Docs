@@ -1,0 +1,58 @@
+If the interviewer asks:
+
+"You were trained in Performance Engineering, but what project did you actually build?"
+
+You can answer like this:
+
+Interview Answer
+
+"During my bench period, I worked on an AI-powered PDF Assistant project using Python, Flask, RAG, Vector Embeddings, and LLMs.
+
+The project allows users to upload PDFs and perform multiple AI-powered operations such as:
+
+PDF Summarization
+PDF Question Generation
+Chat with PDF using RAG
+PDF to Audio Conversion
+
+For the Chat with PDF feature, I implemented a Retrieval-Augmented Generation (RAG) pipeline where the PDF content is chunked, converted into embeddings using Sentence Transformers, stored in vector format, and relevant chunks are retrieved based on the user's question before sending the context to the LLM."
+
+If they ask "What was your contribution?"
+
+You can say:
+
+"I developed the backend using Flask and Python.
+
+My responsibilities included:
+
+Extracting text from PDFs using PyPDF2
+Creating text chunks for efficient processing
+Generating embeddings using Sentence Transformers
+Implementing semantic search using vector similarity
+Integrating Groq LLM APIs for summarization and question answering
+Building REST APIs for PDF upload, PDF chat, summarization, and audio generation
+Managing session handling for PDF conversations
+Optimizing token usage by implementing chunk-level summarization and compressed meta-summaries."
+If they ask "Where does Performance Engineering come into this?"
+
+This is where many freshers struggle.
+
+You can answer:
+
+"Although the project is a GenAI application, I applied Performance Engineering concepts while designing it.
+
+For example:
+
+I used chunking to avoid sending large PDFs directly to the LLM.
+I generated embeddings once and reused them instead of recomputing them for every query.
+I implemented top-K retrieval to reduce the context size sent to the model.
+I optimized token consumption by creating compressed summaries before generating the final summary.
+I monitored response times and reduced unnecessary API calls."
+
+These optimizations improve latency, throughput, and cost efficiency, which are important Performance Engineering principles.
+
+30-Second Version
+
+"I built an AI PDF Assistant using Flask, Python, Groq LLM, Sentence Transformers, and RAG. Users can upload PDFs, generate summaries, ask questions, create quizzes, and convert PDFs to audio. I implemented PDF processing, embeddings, semantic search, vector retrieval, and LLM integration. I also applied performance optimization techniques such as chunking, top-K retrieval, embedding reuse, and token optimization to improve response time and scalability."
+
+For your current situation (Performance Engineering + moving toward PCOE GenAI product development), this answer is actually stronger than saying you only worked on LoadRunner or JMeter scripts, because it shows development skills, API development, Python, and GenAI concepts that align with the PCOE opportunity.
